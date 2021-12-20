@@ -18,7 +18,7 @@ public class Player {
 
     public Player() { }
 
-    public Player(Long id, String userName) {
+    public Player(long id, String userName) {
         this.id = id;
         this.userName = userName;
     }
