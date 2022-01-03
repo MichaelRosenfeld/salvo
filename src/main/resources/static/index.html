@@ -10,28 +10,58 @@
     <h1 class="header">Player Roster</h1>
 </div>
 <div class="middle-container">
+    <div class="form">
+        <form id="form">
+            <label for="fname">Add Player:</label>
+            <input id="fname" name="fname" type="text"><br>
+            <input type="submit" value="Add">
+        </form>
+    </div>
     <ul id="list">
     </ul>
 </div>
 <script>
-    fetch("/players")
-        .then(resp => {
-            if (resp.ok) {
-                return resp.json();
-            } else {
-                throw new Error(`Got back ${resp.status}`);
-            }
-        }).then(data => {
-       let players = data._embedded.players;
-       let element = document.getElementById("list")
+    const form = document.getElementById("form");
 
-        for (let i = 0; i < players.length; i++) {
-           element.insertAdjacentHTML("beforeend", "<li>" + players[i].userName + "</li>" );
-        }
-    }).catch(err => {
-        console.log("Error");
-        console.log(err.status);
-    });
+   async function addPlayer(name) {
+        await fetch('/players', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name})
+        });
+
+        return fetch('/players');
+    }
+
+    form.addEventListener("submit", addPlayer(form.value));
+
+    function showList() {
+        fetch("/players")
+            .then(resp => {
+                if (resp.ok) {
+                    return resp.json();
+                } else {
+                    throw new Error("Got back ${resp.status}");
+                }
+            }).then(data => {
+            let players = data._embedded.players;
+            let element = document.getElementById("list")
+
+            for (let i = 0; i < players.length; i++) {
+                element.insertAdjacentHTML("beforeend", "<li>" + players[i].userName + "</li>");
+            }
+        }).catch(err => {
+            console.log("Error");
+            console.log(err.status);
+        });
+    }
+
+    showList();
 </script>
 </body>
 </html>
