@@ -18,8 +18,8 @@ public class SalvoApplication {
 	@Bean
 	public CommandLineRunner initData(PlayerRepository repository) {
 		return (args) -> {
-			repository.save(new Player(1,"NetterHorst"));
-			repository.save(new Player(2,"BoeserHorst"));
+			repository.save(new Player(1,"netterhorst@mail.com"));
+			repository.save(new Player(2,"boeserhorst@mail.de"));
 		};
 	}
 
