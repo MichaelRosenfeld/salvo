@@ -10,7 +10,7 @@
     <h1 class="header">Player Roster</h1>
 </div>
 <div class="middle-container">
-    <ul class="list">
+    <ul id="list">
     </ul>
 </div>
 <script>
@@ -22,7 +22,12 @@
                 throw new Error(`Got back ${resp.status}`);
             }
         }).then(data => {
-        console.log(data._embedded.players[1]);
+       let players = data._embedded.players;
+       let element = document.getElementById("list")
+
+        for (let i = 0; i < players.length; i++) {
+           element.insertAdjacentHTML("beforeend", "<li>" + players[i].userName + "</li>" );
+        }
     }).catch(err => {
         console.log("Error");
     });
